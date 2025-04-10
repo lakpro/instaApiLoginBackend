@@ -22,9 +22,9 @@ exports.getComments = async (req, res) => {
       },
     });
 
-    console.log("Comments response:", response.data);
+    console.log("Comments response:", response.data.data);
 
-    res.status(200).json(response.data);
+    res.status(200).json(response.data.data);
   } catch (err) {
     console.error(
       "Error fetching comments:",

@@ -23,6 +23,18 @@ exports.login = (req, res) => {
   res.redirect(authUrl);
 };
 
+exports.logout = (req, res) => {
+  res.clearCookie("token", { path: "/" });
+  console.log("Cleared cookie:", req.cookies.token);
+  console.log("Logout successful");
+
+  const redirectUrl = `http://localhost:5173/`;
+
+  res.redirect(redirectUrl);
+
+  // res.status(200).json({ message: "Logged out successfully" });
+};
+
 exports.callback = async (req, res) => {
   const code = req.query.code;
   if (!code) {
@@ -83,32 +95,5 @@ exports.callback = async (req, res) => {
       error.response?.data || error.message
     );
     res.status(500).json({ error: "Failed to exchange token." });
-  }
-};
-
-exports.refreshToken = async (req, res) => {
-  const oldToken = req.query.access_token;
-  if (!oldToken) {
-    return res.status(400).json({ error: "Access token is required" });
-  }
-
-  try {
-    const refreshRes = await axios.get(
-      `https://graph.instagram.com/refresh_access_token`,
-      {
-        params: {
-          grant_type: "ig_refresh_token",
-          access_token: oldToken,
-        },
-      }
-    );
-
-    res.json(refreshRes.data);
-  } catch (error) {
-    console.error(
-      "Refresh token error:",
-      error.response?.data || error.message
-    );
-    res.status(500).json({ error: "Failed to refresh access token." });
   }
 };
