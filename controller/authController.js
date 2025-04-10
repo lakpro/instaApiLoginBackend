@@ -87,7 +87,7 @@ exports.callback = async (req, res) => {
       maxAge: 3600000, // 1 hour or as needed
     });
 
-    res.redirect("http://localhost:5173/profile");
+    res.redirect(`${FRONTEND_URL}/profile`);
   } catch (error) {
     console.error(
       "Token exchange error:",
