@@ -7,6 +7,7 @@ dotenv.config();
 const IG_APP_ID = process.env.IG_APP_ID;
 const IG_APP_SECRET = process.env.IG_APP_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 exports.login = (req, res) => {
   const scopes = [
@@ -28,9 +29,7 @@ exports.logout = (req, res) => {
   console.log("Cleared cookie:", req.cookies.token);
   console.log("Logout successful");
 
-  const redirectUrl = `http://localhost:5173/`;
-
-  res.redirect(redirectUrl);
+  res.redirect(FRONTEND_URL);
 
   // res.status(200).json({ message: "Logged out successfully" });
 };
