@@ -34,7 +34,6 @@ app.use(
   })
 );
 
-// app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", verifyToken, profileRoutes);
 app.use("/api/comments", verifyToken, commentRoutes);
@@ -44,5 +43,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ${PORT}`);
 });

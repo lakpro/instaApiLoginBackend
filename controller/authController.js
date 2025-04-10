@@ -26,12 +26,8 @@ exports.login = (req, res) => {
 
 exports.logout = (req, res) => {
   res.clearCookie("token", { path: "/" });
-  console.log("Cleared cookie:", req.cookies.token);
-  console.log("Logout successful");
 
   res.redirect(FRONTEND_URL);
-
-  // res.status(200).json({ message: "Logged out successfully" });
 };
 
 exports.callback = async (req, res) => {
@@ -39,12 +35,6 @@ exports.callback = async (req, res) => {
   if (!code) {
     return res.status(400).json({ error: "Authorization code not provided." });
   }
-
-  // console.log("Request:", req);
-
-  // if (req.cookies.token) {
-  //   return res.redirect("http://localhost:5173/profile");
-  // }
 
   try {
     const shortTokenRes = await axios.post(
@@ -84,7 +74,7 @@ exports.callback = async (req, res) => {
       httpOnly: true,
       secure: true, // use HTTPS
       sameSite: "None",
-      maxAge: 3600000, // 1 hour or as needed
+      maxAge: 3600000, // 1 hour
     });
 
     res.redirect(`${FRONTEND_URL}/profile`);

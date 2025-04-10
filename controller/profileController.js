@@ -1,14 +1,12 @@
 const axios = require("axios");
 
-// controllers/profileController.js
 exports.getProfile = async (req, res) => {
   try {
-    console.log("Fetching profile for user:", req.user);
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     const accessToken = req.user?.accessToken;
-    // try {
+
     const response = await axios.get("https://graph.instagram.com/v22.0/me", {
       params: {
         fields:
@@ -16,16 +14,6 @@ exports.getProfile = async (req, res) => {
         access_token: accessToken,
       },
     });
-    // console.log("Profile response:", response);
-    // } catch (err) {
-    //   console.error(
-    //     "Error fetching profile:",
-    //     err.response?.data || err.message
-    //   );
-    //   return res.status(500).json({ error: "Failed to fetch profile" });
-    // }
-
-    console.log("Profile response data:", response.data);
 
     res.status(200).json(response.data);
   } catch (err) {
@@ -33,7 +21,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// controllers/profileController.js
 exports.getMedia = async (req, res) => {
   try {
     const accessToken = req.user?.accessToken;
@@ -41,7 +28,7 @@ exports.getMedia = async (req, res) => {
       return res.status(401).json({ error: "Access token missing" });
     }
 
-    // STEP 1: Get the user's IG ID
+    // get the user's Instagram user ID
     const userInfo = await axios.get("https://graph.instagram.com/v22.0/me", {
       params: {
         fields: "id,username",
@@ -51,7 +38,7 @@ exports.getMedia = async (req, res) => {
 
     const igUserId = userInfo.data.id;
 
-    // STEP 2: Get the user's media
+    // get the user's media
     const mediaResponse = await axios.get(
       `https://graph.instagram.com/v22.0/${igUserId}/media`,
       {
@@ -63,9 +50,7 @@ exports.getMedia = async (req, res) => {
       }
     );
 
-    console.log("Media response:", mediaResponse.data);
-
-    res.status(200).json(mediaResponse.data.data); // Send media array
+    res.status(200).json(mediaResponse.data.data);
   } catch (err) {
     console.error("Error fetching media:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch Instagram media." });
