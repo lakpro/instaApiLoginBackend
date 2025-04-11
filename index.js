@@ -39,7 +39,7 @@ app.use("/api/profile", verifyToken, profileRoutes);
 app.use("/api/comments", verifyToken, commentRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the EmpathyTech API!");
+  res.send("Welcome to Instagram Automation API!");
 });
 
 app.listen(PORT, () => {
